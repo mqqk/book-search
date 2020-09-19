@@ -7,15 +7,15 @@ export default class Filter extends Component{
     render(){
 
         const options={
-            filter:["free-ebooks",'ebooks'],
+            bookType:["all","free-ebooks",'ebooks'],
             printType:['all','books','magazines']
         }
 
         // console.log(this.props);
-        const filterOptions = options.filter.map((item,i) => 
+        const printOptions = options.printType.map((item,i) => 
         <option value={item} key={i}>{item}</option>)
 
-        const printOptions = options.printType.map((item,i) =>
+        const bookOptions = options.bookType.map((item,i) =>
             <option value={item} key={i}>{item}</option>)
     
         return(
@@ -28,10 +28,10 @@ export default class Filter extends Component{
                             id="filter-all"
                             name="filter"
                             defaultValue=""                           
-                            onChange={e => this.props.handleFilterOptions(e.target.value)}
+                            onChange={e => this.props.handlePrintOptions(e.target.value)}
                         >
                             <option value="none">Select one..</option>
-                            {filterOptions}
+                            {printOptions}
                             
                         </select>
                     </label>
@@ -41,10 +41,10 @@ export default class Filter extends Component{
                             id="filter-all"
                             name="filter"
                             defaultValue=""
-                            onChange={e => this.props.handlePrintOptions(e.target.value)}
+                            onChange={e => this.props.handleBookOptions(e.target.value)}
                         >
                             <option value="none">Select Book Type..</option>
-                            {printOptions}
+                            {bookOptions}
                         </select>
                     </label>
                 </div>

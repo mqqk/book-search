@@ -13,7 +13,6 @@ export default class SearchBar extends Component{
       searchTerm: '',
       print: '',
       book:'',
-      books:'',
     };
   }
 
@@ -22,33 +21,51 @@ export default class SearchBar extends Component{
 
   handleSearchTerm= (e) =>{
     this.setState({
-      searchTerm:e
+      searchTerm:'q='+e+'+intitle',
     });
   }
 
-  handleFilterOptions=(filterOptions) =>{
+  handlePrintOptions=(printOptions) =>{
     this.setState({
-      book:filterOptions
+      print:'&printType='+printOptions,
     });
   }
 
-  handlePrintOptions = (printOptions) =>{
+  handleBookOptions = (bookOptions) =>{
+    
+    if(bookOptions!=="all"){
     this.setState({
-      print:printOptions
-    });
+      book:'&filter='+bookOptions
+    });}
+
+    if(bookOptions==='all'){
+      this.setState({
+        book:""
+      });
+    }
   }
+
+  // handlePara2=()=>{
+  //   if(this.state.print!=="All"){}
+  // }
 
   fetchSearch=(e)=>{
     e.preventDefault();
     // console.log(this.state)
-    const para1 = this.state.book;
-    const para2 = this.state.print;
-    const para3 = this.state.searchTerm;
-    //  let url="";
+    const bookPara = this.state.book;
+    const printPara = this.state.print;
+    const termPara = this.state.searchTerm;
+
+    console.log(bookPara);
+    console.log(printPara);
+    console.log(termPara);
+    // if(para1==='&filter=ebooks'){return ("")}
+    // console.log(para1)
 
     // if(para2!=="All"){return url = 'https://www.googleapis.com/books/v1/volumes?q='+para3+'+intitle&filter='+para1+'&printType='+para2+'&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg'};
 
-      const url = 'https://www.googleapis.com/books/v1/volumes?q='+para3+'+intitle&filter='+para1+'&printType='+para2+'&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg';
+      const url = 'https://www.googleapis.com/books/v1/volumes?'+termPara+printPara+bookPara+'&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg';
+      //  console.log(url);
 
        const options = {
                 method: 'GET',
@@ -56,7 +73,7 @@ export default class SearchBar extends Component{
         };
 
 
-    console.log(url);
+   
 
     fetch(url, options)
   .then(res => {
@@ -102,7 +119,7 @@ export default class SearchBar extends Component{
                         print={this.state.print}
                         handlePrintOptions={this.handlePrintOptions}
                         book={this.state.book}
-                        handleFilterOptions={this.handleFilterOptions}
+                        handleBookOptions={this.handleBookOptions}
                     />
                 <button 
                     type="submit"
