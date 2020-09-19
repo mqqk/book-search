@@ -6,70 +6,112 @@ import Filter from '../filter/filter';
 
 export default class SearchBar extends Component{
 
-    fetchSearch=(e)=>{
-        e.preventDefault();
-        console.log(this.props)
 
-        const para1 = this.props.book;
-        const para2 = this.props.print;
-        const para3 = this.props.searchTerm;
-
-        const url = 'https://www.googleapis.com/books/v1/volumes?q='+para3+'+intitle&filter='+para1+'&printType='+para2+'&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg';
-
-           const options = {
-                    method: 'GET',
-                    redirect:'follow'
-            };
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchTerm: '',
+      print: '',
+      book:'',
+      books:'',
+    };
+  }
 
 
-        console.log(url);
+  
 
-        fetch(url, options)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('Something went wrong, please try again later.');
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then(data => {
+  handleSearchTerm= (e) =>{
+    this.setState({
+      searchTerm:e
+    });
+  }
 
-        console.log(data);
-        
-      })
-      .catch(err => {
-        this.setState({
-          error: err.message
-        });
-      });
+  handleFilterOptions=(filterOptions) =>{
+    this.setState({
+      book:filterOptions
+    });
+  }
 
-        
+  handlePrintOptions = (printOptions) =>{
+    this.setState({
+      print:printOptions
+    });
+  }
+
+  fetchSearch=(e)=>{
+    e.preventDefault();
+    // console.log(this.state)
+    const para1 = this.state.book;
+    const para2 = this.state.print;
+    const para3 = this.state.searchTerm;
+    //  let url="";
+
+    // if(para2!=="All"){return url = 'https://www.googleapis.com/books/v1/volumes?q='+para3+'+intitle&filter='+para1+'&printType='+para2+'&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg'};
+
+      const url = 'https://www.googleapis.com/books/v1/volumes?q='+para3+'+intitle&filter='+para1+'&printType='+para2+'&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg';
+
+       const options = {
+                method: 'GET',
+                redirect:'follow'
+        };
+
+
+    console.log(url);
+
+    fetch(url, options)
+  .then(res => {
+    if(!res.ok) {
+      throw new Error('Something went wrong, please try again later.');
     }
-      
+    return res;
+  })
+  .then(res => res.json())
+  .then(data => {
+
+   console.log(data)
+   if(data.totalItems>0)
+   {this.props.handleResults(data);}
+   else{alert ("There are no books to match your search!")}
+  
+
+
+    
+  })
+  .catch(err => {
+    this.setState({
+      error: err.message
+    });
+  });
+
+    
+}
 
     
     render(){
-        // console.log(this.props);
+        // console.log(this.state);
         return(
             <div>
                 <form 
                 onSubmit={e => this.fetchSearch(e)}
                 >
-                    <SearchBox 
-                       fetchSearch={this.props.fetchSearch} 
-                       searchTerm={this.props.searchTerm}
-                       handleSearchTerm={this.props.handleSearchTerm} 
+                    <SearchBox                         
+                       searchTerm={this.state.searchTerm}
+                       handleSearchTerm={this.handleSearchTerm} 
                     />
                     <Filter
-                        print={this.props.print}
-                        handlePrintOptions={this.props.handlePrintOptions}
-                        book={this.props.book}
-                        handleFilterOptions={this.props.handleFilterOptions}
+                        print={this.state.print}
+                        handlePrintOptions={this.handlePrintOptions}
+                        book={this.state.book}
+                        handleFilterOptions={this.handleFilterOptions}
                     />
                 <button 
                     type="submit"
                     >Search</button>
                 </form>
+                <div key={this.state.key}>
+                  {this.state.title}
+                  {this.state.author}
+                </div>
                 
             </div>
         )

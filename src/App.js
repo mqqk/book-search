@@ -5,77 +5,39 @@ import SearchBar from './searchBar/searchBar';
 import DisplayResults from './displayResults/displayResults';
 
 
+
+
+
 export default class App extends Component {
 
-  constructor(props) {
+
+
+  constructor (props){
     super(props);
-    this.state = {
-      searchTerm: '',
-      print: '',
-      book:'',
-    };
+    this.state={
+      books:[],
+    }
   }
 
-  handleSearchTerm= (e) =>{
-    // e.preventDefault();
-    this.setState({
-      searchTerm:e
-    });
+  handleResults=(data)=>{
+    // console.log('hi',this.state)
+      this.setState({
+        books:[]
+      })
+
+      this.setState({
+       books:data.items
+      })
+     
   }
 
-  handleFilterOptions=(filterOptions) =>{
-    this.setState({
-      book:filterOptions
-    });
-  }
+  // handleNoResults
 
-  handlePrintOptions = (printOptions) =>{
-    this.setState({
-      print:printOptions
-    });
-  }
-
-  
-
-  
-
-  // fetchSearch(this.state){
-
-
-  //   console.log(this.state);}
-    // const url = 'https://www.googleapis.com/books/v1/volumes?q=harry potter+intitle&key=AIzaSyBYcbIiScyA7oFM8dWJHu6o0Zlr2FQMrkg';
-  //   const options = {
-  //     method: 'GET',
-  //     redirect:'follow'
-  //   };
-
-  //   fetch(url, options)
-  //     .then(res => {
-  //       if(!res.ok) {
-  //         throw new Error('Something went wrong, please try again later.');
-  //       }
-  //       return res;
-  //     })
-  //     .then(res => res.json())
-  //     .then(data => {
-
-  //       console.log(data);
-  //       // this.setState({
-  //       //   bookmarks: data,
-  //       //   error: null
-  //       // });
-  //     })
-  //     .catch(err => {
-  //       this.setState({
-  //         error: err.message
-  //       });
-  //     });
-
-  // }
 
 
 
   render(){
+    // console.log(bookData)
     // console.log(this.state)
 
   
@@ -83,14 +45,9 @@ export default class App extends Component {
     return (
     <div className="App">
       <Title />      
-      <SearchBar
-        fetchSearch={this.fetchSearch} 
-        searchTerm={this.state.searchTerm}
-        handleSearchTerm={this.handleSearchTerm}
-        print={this.state.print}
-        handlePrintOptions={this.handlePrintOptions}
-        book={this.state.book}
-        handleFilterOptions={this.handleFilterOptions}                          
+      <SearchBar        
+        handleResults={this.handleResults}
+        appState={this.state}                                 
       />
       <DisplayResults
         currentState={this.state}
