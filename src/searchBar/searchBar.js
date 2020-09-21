@@ -121,9 +121,7 @@ export default class SearchBar extends Component{
                         book={this.state.book}
                         handleBookOptions={this.handleBookOptions}
                     />
-                <button 
-                    type="submit"
-                    >Search</button>
+                
                 </form>
                 <div key={this.state.key}>
                   {this.state.title}

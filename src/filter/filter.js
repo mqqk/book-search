@@ -20,14 +20,14 @@ export default class Filter extends Component{
     
         return(
             <div>
-                <div>
+                <div className="filter">
                     <label htmlFor="filter-all">
                         Print Type: 
                         <select                    
                     
                             id="filter-all"
                             name="filter"
-                            defaultValue=""                           
+                            defaultValue="All"                           
                             onChange={e => this.props.handlePrintOptions(e.target.value)}
                         >
                             <option value="none">Select one..</option>
@@ -40,7 +40,7 @@ export default class Filter extends Component{
                         <select
                             id="filter-all"
                             name="filter"
-                            defaultValue=""
+                            defaultValue="All"
                             onChange={e => this.props.handleBookOptions(e.target.value)}
                         >
                             <option value="none">Select Book Type..</option>

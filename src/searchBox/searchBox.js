@@ -5,9 +5,13 @@ import './searchBox.css';
 export default class SearchBox extends Component{
     render(){
         return(
-            <div>
-                <label htmlFor="title">Search</label>
+            <div className='searchBox'>
+                <label 
+                    className="searchLabel"
+                    htmlFor="title">Search
+                </label>
                 <input
+                    className="actualBox"
                     type="text"
                     name="searchTerm"
                     id="searchTerm"
@@ -15,6 +19,11 @@ export default class SearchBox extends Component{
                     // value=""
                     onChange={e => this.props.handleSearchTerm(e.target.value)}
                 />
+
+<button 
+                    className="searchButton"
+                    type="submit"
+                    >Search</button>
             </div>
         )
     }

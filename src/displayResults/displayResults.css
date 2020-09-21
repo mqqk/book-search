@@ -4,3 +4,9 @@
     flex-direction: row;
 
 }
+
+img{
+    width:auto;
+    height:12em;
+    padding-right:.5em;
+}
